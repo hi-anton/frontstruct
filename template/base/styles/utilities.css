@@ -106,12 +106,12 @@
 /* border */
 .border { border: var(--border); }
 .rounded { border-radius: var(--radius); }
-.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-sm { border-radius: var(--radius-small); }
 .rounded-full { border-radius: var(--radius-full); }
 
 /* shadow */
 .shadow { box-shadow: var(--shadow); }
-.shadow-large { box-shadow: var(--shadow-lg); }
+.shadow-large { box-shadow: var(--shadow-large); }
 
 /* media */
 .cover { width: 100%; height: 100%; object-fit: cover; }

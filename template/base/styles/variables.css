@@ -49,6 +49,9 @@
   --text-2xl: clamp(2rem, 1.5rem + 2vw, 2.5rem);
   --text-3xl: clamp(2.5rem, 1.8rem + 3vw, 3.5rem);
 
+  --line-height: 1.6;
+  --line-height-heading: 1.15;
+
   /* spacing */
   --spacing1: 0.125rem;
   --spacing2: 0.25rem;
@@ -68,14 +71,17 @@
   --border-thickness: 0.1rem;
   --border: var(--border-thickness) solid var(--color-border);
 
-  --radius-sm: 0.25rem;
+  --radius-small: 0.25rem;
   --radius: 1rem;
   --radius-full: 9999px;
 
-  /* movement */
+  /* animation */
   --duration-fast: 135ms;
   --duration: 400ms;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --fade-in: fade-in var(--duration) var(--ease);
+  --slide-in-left: slide-in-left var(--duration) var(--ease);
 
   /* shadows */
   --shadow-small: 0 1px 2px hsl(0 0% 0% / 0.08);

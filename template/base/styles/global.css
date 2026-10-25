@@ -52,12 +52,12 @@ pre {
   overflow-x: auto; 
   padding: var(--spacing4);
   background-color: var(--color-surface);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-small);
 }
 
 ::selection {
   background-color: var(--accent);
-  color: var(--gray-0);
+  color: var(--black);
 }
 
 a {
