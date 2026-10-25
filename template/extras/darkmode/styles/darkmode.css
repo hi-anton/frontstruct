@@ -5,3 +5,13 @@
   --color-text-muted: var(--gray-3);
   --color-border: var(--gray-5);
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: var(--gray-7);
+    --color-surface: var(--gray-6);
+    --color-text: var(--gray-1);
+    --color-text-muted: var(--gray-3);
+    --color-border: var(--gray-5);
+  }
+}

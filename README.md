@@ -87,3 +87,7 @@ Once you're finished, the setup is complete and you can start coding!
 ## AI usage:
 
 frontstruct uses no AI in the generation of the frontend skeleton, all the files already exist and are copied into your directory. This is to ensure consistancy in file generation.
+
+## Accessibility:
+
+frontstruct comes with aria labels and utility classes especially for screenreaders built in. A darkmode is also available for less eye strain. A high contrast mode is coming to frontstruct in the next months.
