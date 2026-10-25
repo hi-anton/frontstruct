@@ -1,0 +1,7 @@
+[data-theme="dark"] {
+  --color-bg: var(--gray-7);
+  --color-surface: var(--gray-6);
+  --color-text: var(--gray-1);
+  --color-text-muted: var(--gray-3);
+  --color-border: var(--gray-5);
+}

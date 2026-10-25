@@ -1,0 +1,84 @@
+:root{
+  /* colors */
+  --white: hsl(0, 0%, 100%);
+  
+  --gray-1: hsl(0, 0%, 95%);
+  --gray-2: hsl(0, 0%, 85%);
+  --gray-3: hsl(0, 0%, 70%);
+  --gray-4: hsl(0, 0%, 50%);
+  --gray-5: hsl(0, 0%, 35%);
+  --gray-6: hsl(0, 0%, 20%);
+
+  --black: hsl(0, 0%, 10%);
+
+  --accent: hsl(0, 50%, 50%);
+  --accent-hover: hsl(220, 90%, 45%);
+
+  /* status colors */
+  --success: hsl(140, 60%, 40%);
+  --warning: hsl(40, 95%, 50%);
+  --error: hsl(0, 75%, 50%);
+
+  /* color roles (for darkmode) */
+  --color-bg: var(--gray-1);
+  --color-surface: var(--gray-0);
+  --color-text: var(--gray-7);
+  --color-text-muted: var(--gray-5);
+  --color-border: var(--gray-2);
+  --color-link: var(--accent);
+
+  /* border */
+  --border-radius: 1rem;
+  --border-thickness: 0.1rem;
+
+  /* font */
+  --font-family: Arial, Helvetica, sans-serif;
+  --font-family-heading: var(--font-family);
+  --font-family-mono: ui-monospace, Consolas, "Courier New", monospace;
+
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-bold: 700;
+  --font-heading: 900;
+
+  /* text sizes */
+  --text-small: 0.875rem;
+  --text-base: 1.15rem;
+  --text-large: 1.35rem;
+  --text-xl: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  --text-2xl: clamp(2rem, 1.5rem + 2vw, 2.5rem);
+  --text-3xl: clamp(2.5rem, 1.8rem + 3vw, 3.5rem);
+
+  /* spacing */
+  --spacing1: 0.125rem;
+  --spacing2: 0.25rem;
+  --spacing3: 0.5rem;
+  --spacing4: 1rem;
+  --spacing5: 2rem;
+  --spacing6: 4rem;
+  --spacing7: 8rem;
+
+  /* heights */
+  --z-dropdown: 100;
+  --z-header: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+
+  /* borders */
+  --border-thickness: 0.1rem;
+  --border: var(--border-thickness) solid var(--color-border);
+
+  --radius-sm: 0.25rem;
+  --radius: 1rem;
+  --radius-full: 9999px;
+
+  /* movement */
+  --duration-fast: 135ms;
+  --duration: 400ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* shadows */
+  --shadow-small: 0 1px 2px hsl(0 0% 0% / 0.08);
+  --shadow: 0 4px 12px hsl(0 0% 0% / 0.1);
+  --shadow-large: 0 12px 32px hsl(0 0% 0% / 0.15);
+}
