@@ -231,7 +231,7 @@ function buildPlaceholderValues({ projectName, lang, selectedOptions }) {
     .join("\n        ");
 
   const footerLinks = selectedOptions.has("legal")
-    ? `<nav aria-label="${texts.legalNav}"><a href="impressum.html">${texts.imprint}</a> · <a href="datenschutz.html">${texts.privacy}</a></nav>`
+    ? `<nav aria-label="${texts.legalNav}"><a href="impressum.html">${texts.imprint}</a> · <a href="security.html">${texts.privacy}</a></nav>`
     : "";
 
   return {
