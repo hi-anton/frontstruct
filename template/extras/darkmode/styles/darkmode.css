@@ -1,17 +1,17 @@
 [data-theme="dark"] {
-  --color-bg: var(--white);
-  --color-surface: var(--gray-6);
+  --color-bg: var(--gray-6);
+  --color-surface: var(--gray-5);
   --color-text: var(--gray-1);
   --color-text-muted: var(--gray-3);
-  --color-border: var(--gray-5);
+  --color-border: var(--gray-4);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: var(--white);
-    --color-surface: var(--gray-6);
+    --color-bg: var(--gray-6);
+    --color-surface: var(--gray-5);
     --color-text: var(--gray-1);
     --color-text-muted: var(--gray-3);
-    --color-border: var(--gray-5);
+    --color-border: var(--gray-4);
   }
 }

@@ -8,8 +8,32 @@
 
 @keyframes slide-in-left {
   from {
-    transform: translateX(-3rem);
+    transform: translateX(calc(var(--spacing5) * -1));
   } to {
     transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(var(--spacing5));
+  } to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-top {
+  from {
+    transform: translateY(var(--spacing5));
+  } to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-bottom {
+  from {
+    transform: translateY(calc(var(--spacing5) * -1));
+  } to {
+    transform: translateY(0);
   }
 }

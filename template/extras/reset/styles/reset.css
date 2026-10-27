@@ -40,9 +40,3 @@ h6 {
 table {
   border-collapse: collapse;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    interpolate-size: allow-keywords;
-  }
-}

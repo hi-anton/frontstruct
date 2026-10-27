@@ -85,9 +85,12 @@ button {
   cursor: pointer;
 }
 
-
 textarea {
-  resize: vertical; 
+  resize: none; 
+}
+
+input:focus, button:focus, textarea:focus, select:focus {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
