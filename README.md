@@ -9,25 +9,22 @@ frontstruct is a CLI tool, that automatically generates an advanced frontend ske
 ```text
 my-project/
 ├─ index.html
-├─ legal.html
 ├─ 404.html
+├─ impressum.html
 ├─ robots.txt
 ├─ .gitignore
 ├─ styles/
+│  ├─ animations.css
+│  ├─ darkmode.css
+│  ├─ global.css
 │  ├─ main.css
 │  ├─ reset.css
-│  ├─ layout.css
-│  ├─ variables.css
-│  ├─ components.css
-│  ├─ darkmode.css
+│  ├─ utilities.css
 │  ├─ animations.css
-│  └─ utilities.css
-├─ scripts/
-│  ├─ main.js
-│  └─ modules/
-│     ├─ theme-toggle.js
-│     └─ mobile-nav.js
-└─ .git/
+│  └─ variables.css
+└─ scripts/
+   ├─ main.js
+   └─ theme-toggle.js
 ```
 
 ### CSS
@@ -35,19 +32,16 @@ my-project/
 - reset, resets all default margins, paddings and other values
 - layout primitives, adds layout classes such as .flex and .grid
 - variables, automatically sets colors, margins, paddings, etc.
-- basic components, primitive buttons, cards and forms
 - darkmode, adds darkmode variables
 - animations, defines small animations like fade-ins
 
 ### JavaScript
 
 - theme toggle, adds a button for toggling between light and darkmode, requires CSS darkmode
-- mobile navigation, adds a Hamburger menu
 
 ### Pages
 
 - index.html, page index
-- legal.html, legal notice and privacy policy
 - 404.html, error page
 - robots.txt, for agents, bots and crawlers
 
@@ -59,7 +53,6 @@ my-project/
 ### Other
 
 - .gitignore
-- .git
 
 ## Usage:
 

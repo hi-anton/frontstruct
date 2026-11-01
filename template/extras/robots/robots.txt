@@ -1,2 +1,20 @@
+# robots.txt – tells crawlers which parts of the site they may visit.
+# Spec: https://www.rfc-editor.org/rfc/rfc9309
+# Note: robots.txt is a request, not access control. Never rely on it to hide private content.
+
+# Allow all crawlers to access the whole site.
 User-agent: *
-Disallow: /
+Allow: /
+
+# Keep crawlers out of a folder, e.g.:
+# Disallow: /drafts/
+
+# Opt out of AI training crawlers by uncommenting this block:
+# User-agent: GPTBot
+# User-agent: ClaudeBot
+# User-agent: CCBot
+# User-agent: Google-Extended
+# Disallow: /
+
+# Once you have a sitemap, uncomment this line and use your domain (the URL must be absolute):
+# Sitemap: https://example.com/sitemap.xml
