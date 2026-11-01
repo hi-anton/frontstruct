@@ -22,9 +22,10 @@ my-project/
 │  ├─ utilities.css
 │  ├─ animations.css
 │  └─ variables.css
-└─ scripts/
-   ├─ main.js
-   └─ theme-toggle.js
+├─ scripts/
+│  ├─ main.js
+│  └─ theme-toggle.js
+└─ .git/
 ```
 
 ### CSS
@@ -53,6 +54,7 @@ my-project/
 ### Other
 
 - .gitignore
+- .git
 
 ## Usage:
 
