@@ -7,7 +7,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --color-bg: var(--gray-6);
     --color-surface: var(--gray-5);
     --color-text: var(--gray-1);

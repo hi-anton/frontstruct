@@ -3,17 +3,19 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import * as p from "@clack/prompts";
 
 const PACKAGE_ROOT = path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATE_DIR = path.join(PACKAGE_ROOT, "template");
 const packageJson = JSON.parse(fs.readFileSync(path.join(PACKAGE_ROOT, "package.json"), "utf8"));
 
-const [nodeMajorVersion] = process.versions.node.split(".").map(Number);
-if (nodeMajorVersion < 18) {
-  console.error(`frontstruct requires Node.js 18 or newer (installed: ${process.versions.node}).`);
+// @clack/prompts needs Node.js 20.12+. It is imported after this check, so older versions get a clear message.
+const [nodeMajorVersion, nodeMinorVersion] = process.versions.node.split(".").map(Number);
+if (nodeMajorVersion < 20 || (nodeMajorVersion === 20 && nodeMinorVersion < 12)) {
+  console.error(`frontstruct requires Node.js 20.12 or newer (installed: ${process.versions.node}).`);
   process.exit(1);
 }
+
+const p = await import("@clack/prompts");
 
 const HELP_TEXT = `
 frontstruct v${packageJson.version}
@@ -48,7 +50,7 @@ const isBuilt = (value) => fs.existsSync(path.join(TEMPLATE_DIR, "extras", value
 const CSS_OPTIONS = [
   { value: "reset", label: "CSS reset", hint: "recommended" },
   { value: "darkmode", label: "Dark mode variables" },
-  { value: "animations", label: "Animations", hint: "Fade in, slide up" },
+  { value: "animations", label: "Animations", hint: "Fade in, slide in" },
 ].filter((option) => isBuilt(option.value));
 
 const JS_OPTIONS = [

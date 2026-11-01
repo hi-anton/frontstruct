@@ -89,7 +89,7 @@ textarea {
   resize: none; 
 }
 
-input:focus, button:focus, textarea:focus, select:focus {
+:focus {
   outline: none;
 }
 

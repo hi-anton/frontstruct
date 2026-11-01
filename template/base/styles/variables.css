@@ -1,4 +1,4 @@
-:root{
+:root {
   /* colors */
   --white: hsl(0, 0%, 100%);
   
@@ -12,7 +12,7 @@
   --black: hsl(0, 0%, 10%);
 
   --accent: hsl(0, 50%, 50%);
-  --accent-hover: hsl(220, 90%, 45%);
+  --accent-hover: hsl(0, 50%, 40%);
 
   /* status colors */
   --success: hsl(140, 60%, 40%);
@@ -22,14 +22,10 @@
   /* color roles (for darkmode) */
   --color-bg: var(--gray-1);
   --color-surface: var(--white);
-  --color-text: var(--gray-7);
+  --color-text: var(--black);
   --color-text-muted: var(--gray-5);
   --color-border: var(--gray-2);
   --color-link: var(--accent);
-
-  /* border */
-  --border-radius: 1rem;
-  --border-thickness: 0.1rem;
 
   /* font */
   --font-family: Arial, Helvetica, sans-serif;
@@ -61,7 +57,7 @@
   --spacing6: 4rem;
   --spacing7: 8rem;
 
-  /* heights */
+  /* z-index */
   --z-dropdown: 100;
   --z-header: 200;
   --z-modal: 300;
