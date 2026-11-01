@@ -1,6 +1,6 @@
 {
   "name": "frontstruct",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Interactive CLI that scaffolds a frontend project with HTML boilerplate, CSS variables, global styles and reusable utility classes.",
   "repository": {
     "type": "git",
