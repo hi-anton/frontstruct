@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{title}}</title>
+  <title>{{imprint}} – {{name}}</title>
   {{head_scripts}}
   <link rel="stylesheet" href="./styles/main.css">
   <script type="module" src="scripts/main.js"></script>
@@ -19,11 +19,13 @@
 
   <!--German DDG conform-->
   <main>
-    <p>Name (Name of company)></p>
-    <p>Address</p>
-    <p>E-mail</p>
-    <p>Phone number</p>
+    <h1>{{imprint}}</h1>
+    <p>{{imprint_name}}</p>
+    <p>{{imprint_address}}</p>
+    <p>{{imprint_email}}</p>
+    <p>{{imprint_phone}}</p>
   </main>
+  
 
   <footer>
     <p>© {{year}} {{name}}</p>

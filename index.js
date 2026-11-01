@@ -42,24 +42,31 @@ if (cliFlags.has("-v") || cliFlags.has("--version")) {
 
 const useDefaults = cliFlags.has("-y") || cliFlags.has("--yes") || !process.stdin.isTTY;
 
+// Only offer extras that actually exist in template/extras/.
+const isBuilt = (value) => fs.existsSync(path.join(TEMPLATE_DIR, "extras", value));
+
 const CSS_OPTIONS = [
   { value: "reset", label: "CSS reset", hint: "recommended" },
-  { value: "layout", label: "Layout primitives", hint: ".stack, .cluster, .grid-auto …" },
-  { value: "components", label: "Components", hint: "Buttons, cards, forms" },
   { value: "darkmode", label: "Dark mode variables" },
   { value: "animations", label: "Animations", hint: "Fade in, slide up" },
-];
+].filter((option) => isBuilt(option.value));
 
 const JS_OPTIONS = [
-  { value: "theme-toggle", label: "Theme toggle", hint: "needs dark mode", requires: ["darkmode"] },
-  { value: "mobile-nav", label: "Mobile navigation", hint: "Burger menu" },
-];
+  {
+    value: "theme-toggle",
+    label: "Theme toggle",
+    hint: "needs dark mode",
+    requires: ["darkmode"],
+    file: "theme-toggle.js",
+    init: "initThemeToggle",
+  },
+].filter((option) => isBuilt(option.value));
 
 const PAGE_OPTIONS = [
-  { value: "legal", label: "Legal notice & privacy policy", hint: "Impressum & Datenschutz" },
+  { value: "legal", label: "Legal notice", hint: "Impressum" },
   { value: "404", label: "404 page" },
   { value: "robots", label: "robots.txt" },
-];
+].filter((option) => isBuilt(option.value));
 
 const LANGUAGE_OPTIONS = [
   { value: "de", label: "German" },
@@ -68,47 +75,48 @@ const LANGUAGE_OPTIONS = [
 
 const DEFAULTS = {
   lang: "en",
-  css: ["reset", "layout", "darkmode"],
-  js: ["theme-toggle", "mobile-nav"],
-  pages: ["404"],
+  css: ["reset", "darkmode"].filter(isBuilt),
+  js: ["theme-toggle"].filter(isBuilt),
+  pages: ["404"].filter(isBuilt),
   git: true,
 };
 
-const CSS_LAYER_ORDER = "reset, base, layout, components, utilities";
+const CSS_LAYER_ORDER = "reset, base, components, utilities";
 const CSS_FILES = [
   ["reset", "reset"],
   ["variables", "base"],
   ["darkmode", "base"],
   ["global", "base"],
-  ["layout", "layout"],
-  ["components", "components"],
-  ["nav", "components"],
   ["animations", "components"],
   ["utilities", "utilities"],
 ];
 
-const JS_MODULES = {
-  "theme-toggle": { file: "theme-toggle.js", init: "initThemeToggle" },
-  "mobile-nav": { file: "mobile-nav.js", init: "initMobileNav" },
-};
-
 const DOTFILES = ["gitignore"];
-const TEXT_EXTENSIONS = new Set([".html", ".css", ".js", ".json", ".md", ".txt", ".svg", ".webmanifest"]);
+const TEXT_EXTENSIONS = new Set([".html", ".css", ".js", ".txt"]);
 
+// Every page text is also available in the template as a {{placeholder}}.
 const PAGE_TEXTS = {
   de: {
-    themeToggle: "Farbschema wechseln",
-    menuToggle: "Menü öffnen",
-    legalNav: "Rechtliches",
+    theme_toggle: "Farbschema wechseln",
+    legal_nav: "Rechtliches",
     imprint: "Impressum",
-    privacy: "Datenschutz",
+    imprint_name: "Name (bzw. Name des Unternehmens)",
+    imprint_address: "Anschrift",
+    imprint_email: "E-Mail",
+    imprint_phone: "Telefon",
+    not_found_title: "Seite nicht gefunden",
+    not_found_text: "Hoppla … da ist etwas schiefgelaufen.",
   },
   en: {
-    themeToggle: "Toggle color scheme",
-    menuToggle: "Open menu",
-    legalNav: "Legal",
+    theme_toggle: "Toggle color scheme",
+    legal_nav: "Legal",
     imprint: "Legal notice",
-    privacy: "Privacy",
+    imprint_name: "Name (or company name)",
+    imprint_address: "Address",
+    imprint_email: "Email",
+    imprint_phone: "Phone number",
+    not_found_title: "Page not found",
+    not_found_text: "Oops... something went wrong.",
   },
 };
 
@@ -120,6 +128,11 @@ function getAnswer(answer) {
     process.exit(0);
   }
   return answer;
+}
+
+async function selectExtras(message, options, initialValues) {
+  if (!options.length) return [];
+  return getAnswer(await p.multiselect({ message, options, initialValues, required: false }));
 }
 
 function validateProjectName(value) {
@@ -144,12 +157,8 @@ function copyFromTemplate(templateSubpath, targetDir) {
 function* walkFiles(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      if (entry.name === "node_modules" || entry.name === ".git") continue;
-      yield* walkFiles(fullPath);
-    } else {
-      yield fullPath;
-    }
+    if (entry.isDirectory()) yield* walkFiles(fullPath);
+    else yield fullPath;
   }
 }
 
@@ -198,10 +207,10 @@ function writeMainJs(projectDir, selectedOptions) {
   const importLines = [];
   const initCalls = [];
 
-  for (const [optionValue, module] of Object.entries(JS_MODULES)) {
-    if (!selectedOptions.has(optionValue)) continue;
-    if (!fs.existsSync(path.join(scriptsDir, "modules", module.file))) continue;
-    importLines.push(`import { ${module.init} } from "./modules/${module.file}";`);
+  for (const module of JS_OPTIONS) {
+    if (!selectedOptions.has(module.value)) continue;
+    if (!fs.existsSync(path.join(scriptsDir, module.file))) continue;
+    importLines.push(`import { ${module.init} } from "./${module.file}";`);
     initCalls.push(`${module.init}();`);
   }
 
@@ -212,29 +221,23 @@ function writeMainJs(projectDir, selectedOptions) {
 }
 
 function buildPlaceholderValues({ projectName, lang, selectedOptions }) {
-  const texts = PAGE_TEXTS[lang] ?? PAGE_TEXTS.de;
+  const texts = PAGE_TEXTS[lang];
   const headScripts = selectedOptions.has("theme-toggle")
     ? `<script>
       try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
     </script>`
     : "";
 
-  const headerActions = [
-    selectedOptions.has("theme-toggle") &&
-      `<button class="theme-toggle" type="button" data-theme-toggle aria-label="${texts.themeToggle}">◐</button>`,
-    selectedOptions.has("mobile-nav") &&
-      `<button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="${texts.menuToggle}">
-          <span class="nav-toggle__bar"></span>
-        </button>`,
-  ]
-    .filter(Boolean)
-    .join("\n        ");
+  const headerActions = selectedOptions.has("theme-toggle")
+    ? `<button class="theme-toggle" type="button" data-theme-toggle aria-label="${texts.theme_toggle}">◐</button>`
+    : "";
 
   const footerLinks = selectedOptions.has("legal")
-    ? `<nav aria-label="${texts.legalNav}"><a href="impressum.html">${texts.imprint}</a> · <a href="security.html">${texts.privacy}</a></nav>`
+    ? `<nav aria-label="${texts.legal_nav}"><a href="impressum.html">${texts.imprint}</a></nav>`
     : "";
 
   return {
+    ...texts,
     name: projectName,
     title: projectName,
     lang,
@@ -287,32 +290,9 @@ if (useDefaults) {
       await p.select({ message: "Page language?", options: LANGUAGE_OPTIONS, initialValue: DEFAULTS.lang })
     ),
 
-    css: getAnswer(
-      await p.multiselect({
-        message: "CSS extras? (Space: select, Enter: confirm)",
-        options: CSS_OPTIONS,
-        initialValues: DEFAULTS.css,
-        required: false,
-      })
-    ),
-
-    js: getAnswer(
-      await p.multiselect({
-        message: "JavaScript extras?",
-        options: JS_OPTIONS.map(({ requires, ...option }) => option),
-        initialValues: DEFAULTS.js,
-        required: false,
-      })
-    ),
-
-    pages: getAnswer(
-      await p.multiselect({
-        message: "Additional pages & files?",
-        options: PAGE_OPTIONS,
-        initialValues: DEFAULTS.pages,
-        required: false,
-      })
-    ),
+    css: await selectExtras("CSS extras? (Space: select, Enter: confirm)", CSS_OPTIONS, DEFAULTS.css),
+    js: await selectExtras("JavaScript extras?", JS_OPTIONS, DEFAULTS.js),
+    pages: await selectExtras("Additional pages & files?", PAGE_OPTIONS, DEFAULTS.pages),
 
     git: getAnswer(await p.confirm({ message: "Initialize a Git repository?", initialValue: DEFAULTS.git })),
   };
@@ -332,7 +312,6 @@ for (const jsOption of JS_OPTIONS) {
 }
 
 const projectDir = path.resolve(projectName);
-const missingTemplateParts = [];
 
 const spinner = p.spinner();
 spinner.start("Creating project");
@@ -343,9 +322,7 @@ try {
   }
 
   for (const optionValue of selectedOptions) {
-    if (!copyFromTemplate(path.join("extras", optionValue), projectDir)) {
-      missingTemplateParts.push(optionValue);
-    }
+    copyFromTemplate(path.join("extras", optionValue), projectDir);
   }
 
   writeMainCss(projectDir);
@@ -364,10 +341,6 @@ try {
   spinner.stop("Failed to create project");
   p.cancel(error.message);
   process.exit(1);
-}
-
-if (missingTemplateParts.length) {
-  p.log.warn(`These parts are not in the template yet and were skipped: ${missingTemplateParts.join(", ")}`);
 }
 
 if (answers.git) {
