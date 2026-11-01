@@ -2,6 +2,10 @@
   "name": "frontstruct",
   "version": "0.1.0",
   "description": "Interactive CLI that scaffolds a frontend project with HTML boilerplate, CSS variables, global styles and reusable utility classes.",
+  "repository": { 
+    "type": "git",
+    "url": "git+https://github.com/hi-anton/frontstruct.git" 
+  },
   "keywords": [
     "cli",
     "scaffold",
